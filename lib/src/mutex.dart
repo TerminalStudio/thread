@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:thread/src/impl/mutex_unix.dart';
+import 'package:thread/src/impl/mutex_windows.dart';
 
 class MutexError {}
 
@@ -9,7 +10,7 @@ class MutexError {}
 abstract class Mutex {
   factory Mutex.create() {
     if (Platform.isWindows) {
-      throw 'Not supported';
+      return WindowsMutex.create();
     }
 
     return UnixMutex.create();
@@ -19,7 +20,7 @@ abstract class Mutex {
 
   void unlock();
 
-  bool trylock();
+  // bool trylock();
 
   void destroy();
 }

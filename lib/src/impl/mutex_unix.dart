@@ -6,7 +6,7 @@ import 'package:thread/thread.dart';
 
 class UnixMutex implements Mutex {
   UnixMutex.create() {
-    final mutex = calloc<Uint8>(100);
+    final mutex = calloc<Uint8>(128);
     mutexAddress = mutex.address;
 
     final result = unix.pthreadMutexInit(mutex, 0);
@@ -37,7 +37,6 @@ class UnixMutex implements Mutex {
     }
   }
 
-  @override
   bool trylock() {
     final mutex = Pointer<Uint8>.fromAddress(mutexAddress);
     return unix.pthreadMutexTrylock(mutex) == 0;
